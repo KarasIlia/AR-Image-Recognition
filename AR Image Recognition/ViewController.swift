@@ -75,35 +75,25 @@ extension ViewController: ARSCNViewDelegate {
         switch referenceImage.name {
         case "500faceLeft":
             plane.firstMaterial?.diffuse.contents = UIImage(named: "1000USDfaceLeft")
-            
-            remove(anchor)
         case "500faceRight":
             plane.firstMaterial?.diffuse.contents = UIImage(named: "1000USDfaceRight")
-            
-            remove(anchor)
         case "500backLeft":
             plane.firstMaterial?.diffuse.contents = UIImage(named: "1000USDbackLeft")
-            
-            remove(anchor)
         case "500backRight":
             plane.firstMaterial?.diffuse.contents = UIImage(named: "1000USDbackRight")
-            
-            remove(anchor)
         default:
             break
         }
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+            self.sceneView.session.remove(anchor: anchor)
+        })
         
         let planeNode = SCNNode(geometry: plane)
         
         planeNode.eulerAngles.x = -.pi / 2
         
         node.addChildNode(planeNode)
-    }
-    
-    func remove(_ anchor: ARImageAnchor) {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-            self.sceneView.session.remove(anchor: anchor)
-        })
     }
     
     func nodeAdded(_ node: SCNNode, for anchor: ARPlaneAnchor) {
